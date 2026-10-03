@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шпаргалки — главная</title>
+  <style>
+    /* Общие стили */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    /* Контейнер для центрирования контента */
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Три отступа сверху — «3 строка от начала» */
+    .top-offset {
+      margin-top: 3rem;
+    }
+
+    /* Жирная большая надпись */
+    .main-title {
+      font-size: 5rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1e2b4f;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    /* Подзаголовок */
+    .sub-title {
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: #2c3e6d;
+      margin-bottom: 3rem;
+      font-style: italic;
+      letter-spacing: 1px;
+    }
+
+    /* Сетка для карточек шпаргалок */
+    .cheat-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    /* Карточка-ссылка */
+    .cheat-card {
+      background: white;
+      border-radius: 2rem;
+      padding: 2rem 1.5rem;
+      width: 220px;
+      box-shadow: 0 12px 24px -8px rgba(0, 20, 50, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: #1e2b4f;
+      border: 2px solid #e0e7ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cheat-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 36px -12px rgba(30, 43, 79, 0.3);
+      border-color: #7b9acc;
+    }
+
+    .cheat-card .icon {
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .cheat-card .name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Ссылка «На главную» для страниц шпаргалок */
+    .back-home {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      background: #1e2b4f;
+      color: white;
+      text-decoration: none;
+      border-radius: 3rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .back-home:hover {
+      background: #2c3e6d;
+      transform: scale(1.02);
+    }
+
+    /* Общие стили для страниц шпаргалок */
+    .cheat-page-wrapper {
+      background: white;
+      border-radius: 2rem;
+      padding: 3rem 2.5rem;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+      text-align: left;
+      border: 1px solid #e9edf5;
+    }
+
+    .cheat-page-wrapper h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #1e2b4f;
+      margin-bottom: 1.5rem;
+      border-bottom: 4px solid #7b9acc;
+      padding-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .cheat-page-wrapper h2 {
+      font-size: 1.6rem;
+      color: #2c3e6d;
+      margin: 2rem 0 0.8rem;
+      font-weight: 700;
+      padding-top: 0.5rem;
+      border-top: 2px solid #e0e7ff;
+    }
+
+    .cheat-page-wrapper h2:first-of-type {
+      border-top: none;
+      margin-top: 0;
+    }
+
+    .cheat-page-wrapper p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #1f2a44;
+      margin-bottom: 1rem;
+    }
+
+    .cheat-page-wrapper ul, .cheat-page-wrapper ol {
+      margin-left: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .cheat-page-wrapper li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Стиль для блоков кода */
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      white-space: pre-wrap;
+      text-align: left;
+      border-left: 6px solid #7b9acc;
+    }
+
+    .code-block .comment {
+      color: #7f8c8d;
+    }
+
+    .code-block .cmd {
+      color: #f1c40f;
+      font-weight: bold;
+    }
+
+    /* Стиль для выделенных блоков-определений */
+    .term-box {
+      margin-top: 1.5em;
+      background-color: #f8faff;
+      color: black;
+      border: 2px solid #1e2b4f;
+      border-radius: 1rem;
+      padding: 1.5rem 2rem;
+      font-weight: normal;
+      text-align: left;
+    }
+
+    .term-box .term {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.8em;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .term-box .term:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Стиль для схемы состояний */
+    .state-scheme {
+      background: #f0f4ff;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 1.5rem 0;
+      border: 2px dashed #7b9acc;
+      color: #1e2b4f;
+    }
+
+    /* Стиль для примеров промтов */
+    .prompt-example {
+      background: #fef9e7;
+      border-left: 6px solid #f39c12;
+      padding: 1.2rem 1.5rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1.2rem 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #1f2a44;
+    }
+
+    .prompt-example .bad {
+      color: #c0392b;
+      font-weight: bold;
+    }
+
+    .prompt-example .good {
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    /* Адаптив для телефонов */
+    @media (max-width: 600px) {
+      .main-title {
+        font-size: 3rem;
+      }
+      .sub-title {
+        font-size: 1.3rem;
+      }
+      .cheat-card {
+        width: 160px;
+        padding: 1.5rem 0.8rem;
+      }
+      .cheat-card .icon {
+        font-size: 2.5rem;
+      }
+      .cheat-card .name {
+        font-size: 1rem;
+      }
+      .cheat-page-wrapper h1 {
+        font-size: 2rem;
+      }
+      .cheat-page-wrapper {
+        padding: 2rem 1.2rem;
+      }
+      .code-block {
+        font-size: 0.8rem;
+        padding: 1rem;
+      }
+      .state-scheme {
+        font-size: 0.9rem;
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ГЛАВНАЯ СТРАНИЦА (по умолчанию отображается) -->
+  <div id="mainPage" class="container">
+    <!-- Три строки от начала страницы: сдвиг вниз -->
+    <div class="top-offset">
+      <!-- Жирная большая надпись "ШПАРГАЛКИ" -->
+      <div class="main-title">Шпаргалки</div>
+      <!-- Подпись "выбери шпаргалку" -->
+      <div class="sub-title">выбери шпаргалку</div>
+    </div>
+
+    <!-- Сетка с шпаргалками (ссылки на страницы) -->
+    <div class="cheat-grid">
+      <a href="#" class="cheat-card" data-page="git">
+        <div class="icon">🐙</div>
+        <div class="name">Git и GitHub</div>
+      </a>
+      <a href="#" class="cheat-card" data-page="html">
+        <div class="icon">🌐</div>
+        <div class="name">HTML: живая шпаргалка</div>
+      </a>
+      <a href="#" class="cheat-card" data-page="prompts">
+        <div class="icon">🤖</div>
+        <div class="name">Шпаргалка по Промтам</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- СТРАНИЦА ШПАРГАЛКИ ПО GIT (скрыта по умолчанию) -->
+  <div id="gitPage" class="container" style="display: none;">
+    <div class="cheat-page-wrapper">
+      <h1>Git и GitHub: шпаргалка</h1>
+
+      <p style="font-style: italic; color: #2c3e6d; margin-bottom: 2rem; font-size: 1.1rem;">
+        Команды идут в том порядке, в котором их набирают в терминале.<br>
+        Строки, начинающиеся с #, — пояснения, их вводить не нужно.
+      </p>
+
+      <h2>1. Git и GitHub</h2>
+      <p>Это разные вещи: Git работает на твоём компьютере, GitHub — сайт в интернете.</p>
+
+      <p><strong>Три главных слова:</strong></p>
+      <div class="term-box">
+        <span class="term"><strong>Git</strong> — система контроля версий: запоминает историю изменений проекта.</span>
+        <span class="term"><strong>Коммит</strong> — снимок проекта в конкретный момент.</span>
+        <span class="term"><strong>GitHub</strong> — сервис для хранения кода в облаке. Нам нужен для хранения версий проектов.</span>
+      </div>
+
+      <h2>2. Первая настройка</h2>
+      <p>Делается один раз на компьютере. Имя и почта будут подписью под каждым коммитом.</p>
+      <div class="code-block"><span class="comment"># указать имя</span>
+git config --global user.name "Иван Петров"
+
+<span class="comment"># указать почту</span>
+git config --global user.email "ivan@example.com"</div>
+
+      <h2>3. Три состояния файла</h2>
+      <p>Файл попадает в историю не сразу, а в два шага: сначала <strong>git add</strong>, потом <strong>git commit</strong>.</p>
+
+      <div class="state-scheme">
+        рабочая папка → git add → git commit
+      </div>
+
+      <div class="term-box">
+        <span class="term"><strong>Рабочая папка</strong> — то, что ты редактируешь прямо сейчас.</span>
+        <span class="term"><strong>git add</strong> — черновик следующего коммита: выбор, что сохранить.</span>
+        <span class="term"><strong>git commit</strong> — сохранённая точка, попавшая в постоянную историю.</span>
+      </div>
+
+      <h2>4. Основные команды</h2>
+      <p>Пять команд, которых хватает для работы на своём компьютере.</p>
+
+      <div class="code-block"><span class="comment"># превратить папку в репозиторий (один раз)</span>
+<span class="cmd">git init</span>
+
+<span class="comment"># что изменилось прямо сейчас</span>
+<span class="cmd">git status</span>
+
+<span class="comment"># подготовить изменения к сохранению</span>
+<span class="cmd">git add index.html</span>
+
+<span class="comment"># сохранить как новую точку в истории</span>
+<span class="cmd">git commit -m "первая версия сайта"</span>
+
+<span class="comment"># посмотреть историю коммитов</span>
+<span class="cmd">git log</span></div>
+
+      <h2>5. SSH-ключ</h2>
+      <p>По ключу GitHub узнаёт твой компьютер без пароля. Открытый ключ (<strong>.pub</strong>) добавляется на GitHub.</p>
+
+      <div class="code-block"><span class="comment"># создать пару ключей</span>
+<span class="cmd">ssh-keygen -t ed25519 -C "ivan@example.com"</span>
+
+<span class="comment"># показать открытый ключ, чтобы его скопировать</span>
+<span class="cmd">cat ~/.ssh/id_ed25519.pub</span></div>
+
+      <p>Скопированную строку вставь на GitHub: <strong>Settings → SSH and GPG keys → New SSH key</strong>.</p>
+
+      <h2>6. Связь с GitHub</h2>
+      <p>Сначала создай пустой репозиторий на GitHub и скопируй его SSH-адрес.</p>
+
+      <div class="code-block"><span class="comment"># привязать локальный репозиторий к GitHub</span>
+<span class="cmd">git remote add origin git@github.com:ivan/weather-site.git</span>
+
+<span class="comment"># назвать ветку main (стандарт GitHub)</span>
+<span class="cmd">git branch -M main</span>
+
+<span class="comment"># отправить коммиты на GitHub</span>
+<span class="cmd">git push -u origin main</span></div>
+
+      <p>После первого <strong>push</strong> достаточно писать просто <strong>git push</strong>.</p>
+
+      <h2>7. Весь путь целиком</h2>
+      <p><strong>Один раз для проекта:</strong></p>
+      <div class="code-block">cd weather-site
+git init
+git status
+git add index.html
+git commit -m "первая версия сайта"
+
+git remote add origin git@github.com:ivan/weather-site.git
+git branch -M main
+git push -u origin main</div>
+
+      <p><strong>После каждого изменения:</strong></p>
+      <div class="code-block">git add index.html
+git commit -m "добавил вторую страницу"
+git push</div>
+
+    </div>
+    <div style="text-align: center;">
+      <a href="#" class="back-home" data-back>← на главную</a>
+    </div>
+  </div>
+
+  <!-- СТРАНИЦА ШПАРГАЛКИ ПО HTML (скрыта) -->
+  <div id="htmlPage" class="container" style="display: none;">
+    <div class="cheat-page-wrapper">
+      <h1>HTML: живая шпаргалка</h1>
+
+      <p style="font-size: 1.15rem; font-weight: bold; text-align: center; margin-bottom: 2rem; color: #2c3e6d;">
+        Каждая карточка ниже — настоящий тег, не картинка.<br>
+        Открой код страницы (Ctrl+U) и найди в нём то же самое, что видишь на экране.
+      </p>
+
+      <h2>Скелет документа</h2>
+      <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Погода&lt;/title&gt;   <span class="comment">&lt;!-- текст вкладки браузера --&gt;</span>
+  &lt;/head&gt;
+  &lt;body&gt;                     <span class="comment">&lt;!-- всё, что видно на странице --&gt;</span>
+    &lt;h1&gt;Погода&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+
+      <h2>Основные теги</h2>
+      <ul>
+        <li><strong>&lt;h1&gt;…&lt;/h1&gt;</strong> — заголовок первого уровня</li>
+        <li><strong>&lt;p&gt;…&lt;/p&gt;</strong> — абзац текста</li>
+        <li><strong>&lt;a href="..."&gt;…&lt;/a&gt;</strong> — ссылка</li>
+        <li><strong>&lt;img src="..." alt="..."&gt;</strong> — изображение</li>
+        <li><strong>&lt;ul&gt;…&lt;/ul&gt;</strong> — маркированный список</li>
+        <li><strong>&lt;ol&gt;…&lt;/ol&gt;</strong> — нумерованный список</li>
+        <li><strong>&lt;li&gt;…&lt;/li&gt;</strong> — элемент списка</li>
+        <li><strong>&lt;div&gt;…&lt;/div&gt;</strong> — блочный контейнер</li>
+        <li><strong>&lt;span&gt;…&lt;/span&gt;</strong> — строчный контейнер</li>
+      </ul>
+
+      <h2>Пример простой страницы</h2>
+      <div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Моя страница&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Привет, мир!&lt;/h1&gt;
+    &lt;p&gt;Это мой первый абзац.&lt;/p&gt;
+    &lt;a href="https://example.com"&gt;Перейти на сайт&lt;/a&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+
+      <h2>Полезные советы</h2>
+      <ul>
+        <li>Всегда указывай <strong>&lt;meta charset="utf-8"&gt;</strong>, чтобы русские буквы отображались правильно.</li>
+        <li>Закрывай теги в правильном порядке: последним открыл — первым закрыл.</li>
+        <li>Используй <strong>alt</strong> у картинок — это важно для доступности.</li>
+        <li>Проверяй код через <strong>Ctrl+U</strong> в браузере.</li>
+      </ul>
+    </div>
+    <div style="text-align: center;">
+      <a href="#" class="back-home" data-back>← на главную</a>
+    </div>
+  </div>
+
+  <!-- СТРАНИЦА ШПАРГАЛКИ ПО ПРОМТАМ (скрыта) -->
+  <div id="promptsPage" class="container" style="display: none;">
+    <div class="cheat-page-wrapper">
+      <h1>Шпаргалка по Промтам</h1>
+
+      <p style="font-style: italic; color: #2c3e6d; margin-bottom: 2rem; font-size: 1.1rem;">
+        Промт — это запрос к нейросети. Чем точнее промт — тем лучше результат.<br>
+        Ниже — три главных приёма: структура, логика и уточнение.
+      </p>
+
+      <!-- ПРОМТ 1 — СТРУКТУРА -->
+      <h2>Промт 1 — структура</h2>
+      <p>Хороший промт строится по схеме: <strong>Роль → Задача → Контекст → Формат → Ограничения</strong>.</p>
+
+      <div class="state-scheme">
+        Роль → Задача → Контекст → Формат → Ограничения
+      </div>
+
+      <div class="term-box">
+        <span class="term"><strong>Роль</strong> — кем должна быть нейросеть: «Ты — опытный программист».</span>
+        <span class="term"><strong>Задача</strong> — что именно нужно сделать: «Напиши функцию».</span>
+        <span class="term"><strong>Контекст</strong> — детали, примеры, вводные данные.</span>
+        <span class="term"><strong>Формат</strong> — в каком виде нужен ответ: список, таблица, код.</span>
+        <span class="term"><strong>Ограничения</strong> — чего нельзя, лимиты по длине.</span>
+      </div>
+
+      <p><strong>Пример:</strong></p>
+      <div class="prompt-example">
+        <span class="good">✓</span> Ты — опытный Python-разработчик. Напиши функцию, которая принимает список чисел и возвращает их сумму. Добавь docstring и пример использования. Только код, без пояснений.
+      </div>
+
+      <p><strong>Как это пишется кратко:</strong></p>
+      <div class="code-block">Ты — [роль].
+Задача: [что сделать].
+Контекст: [детали].
+Формат: [как ответить].
+Ограничения: [чего нельзя].</div>
+
+      <!-- ПРОМТ 2 — ЛОГИКА -->
+      <h2>Промт 2 — логика</h2>
+      <p>Чтобы нейросеть рассуждала последовательно, попроси её <strong>думать по шагам</strong>.</p>
+
+      <div class="state-scheme">
+        «Думай по шагам» → пошаговый ответ → проверка
+      </div>
+
+      <div class="term-box">
+        <span class="term"><strong>Пошаговость</strong> — «Объясни шаг за шагом» улучшает логику ответа.</span>
+        <span class="term"><strong>Самопроверка</strong> — «Проверь свой ответ на ошибки».</span>
+        <span class="term"><strong>Разбиение</strong> — сложную задачу дели на части.</span>
+      </div>
+
+      <p><strong>Пример:</strong></p>
+      <div class="prompt-example">
+        <span class="good">✓</span> Реши задачу по шагам. Сначала объясни условие, потом составь уравнение, затем реши его и проверь ответ.
+      </div>
+
+      <p><strong>Как это пишется кратко:</strong></p>
+      <div class="code-block">Думай по шагам.
+Сначала [шаг 1].
+Потом [шаг 2].
+В конце проверь результат.</div>
+
+      <!-- ПРОМТ 3 — УТОЧНЕНИЕ -->
+      <h2>Промт 3 — уточнение</h2>
+      <p>Если ответ не подходит — не переписывай промт заново, а <strong>уточни</strong> его.</p>
+
+      <div class="state-scheme">
+        Первый ответ → уточнение → доработка
+      </div>
+
+      <div class="term-box">
+        <span class="term"><strong>Уточнение</strong> — «Сделай короче», «Добавь примеры», «Измени стиль».</span>
+        <span class="term"><strong>Конкретика</strong> — «Убери второй абзац», «Замени слово X на Y».</span>
+        <span class="term"><strong>Итерации</strong> — можно уточнять несколько раз подряд.</span>
+      </div>
+
+      <p><strong>Пример:</strong></p>
+      <div class="prompt-example">
+        <span class="good">✓</span> Слишком длинно. Сократи до 3 абзацев и добавь пример из жизни.
+      </div>
+
+      <p><strong>Как это пишется кратко:</strong></p>
+      <div class="code-block">Сократи / расширь.
+Добавь пример.
+Измени стиль на [какой].
+Убери [что].</div>
+
+    </div>
+    <div style="text-align: center;">
+      <a href="#" class="back-home" data-back>← на главную</a>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Все страницы, которые можно показать (главная + шпаргалки)
+      const pages = {
+        main: document.getElementById('mainPage'),
+        git: document.getElementById('gitPage'),
+        html: document.getElementById('htmlPage'),
+        prompts: document.getElementById('promptsPage')
+      };
+
+      // Функция показа только одной страницы
+      function showPage(pageId) {
+        // Скрываем все страницы
+        Object.values(pages).forEach(page => {
+          if (page) page.style.display = 'none';
+        });
+        // Показываем нужную
+        if (pages[pageId]) {
+          pages[pageId].style.display = 'block';
+        } else {
+          // Если страница не найдена — показываем главную
+          pages.main.style.display = 'block';
+        }
+        // Прокручиваем вверх
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Находим все карточки шпаргалок
+      const cheatCards = document.querySelectorAll('.cheat-card');
+      
+      // Обработчик для карточек: открыть соответствующую шпаргалку
+      cheatCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          const page = this.dataset.page; // получаем git, html или prompts
+          if (page && pages[page]) {
+            showPage(page);
+          } else {
+            // Если страница не определена, показываем главную
+            showPage('main');
+          }
+        });
+      });
+
+      // Находим все ссылки "на главную"
+      const backLinks = document.querySelectorAll('[data-back]');
+      
+      backLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          showPage('main');
+        });
+      });
+
+      // При загрузке всегда показываем главную
+      showPage('main');
+    })();
+  </script>
+</body>
+</html>
